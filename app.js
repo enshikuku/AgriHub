@@ -49,8 +49,8 @@ app.get('/', (req, res) => {
     res.render('index.ejs')
 })
 
-app.get('/signupsignin', (req, res) => {
-    res.render('signinsignup.ejs')
+app.get('/forms', (req, res) => {
+    res.render('forms.ejs')
 })
 
 app.get('/register', (req, res) => {
