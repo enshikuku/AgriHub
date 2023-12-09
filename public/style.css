@@ -208,7 +208,6 @@ body::-webkit-scrollbar-thumb {
     display: inline-block;
     padding: 4px;
     text-decoration: none;
-    text-transform: uppercase;
     font-size: 25px;
     color: #46000E;
     border-radius: 10px;
@@ -236,75 +235,7 @@ body::-webkit-scrollbar-thumb {
     text-align: center;
     color: #46000E;
 }
-.section-divs {
-    height: 80vh;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-}
 
-.user-auth-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background-image: url(images/virtualbg.jpg);
-    background-repeat: no-repeat;
-    background-size: cover;
-    transition: all 0.5s;
-}
-
-.user-auth-container .auth-container {
-    width: 70%;
-    height: fit-content;
-    max-width: 500px;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(10px);
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border: 2px solid #900020;
-    border-radius: 25px;
-    color: #ffffff;
-    font-size: 20px;
-}
-
-.user-auth-container .auth-container h1 {
-    text-align: center;
-    font-size: 25px;
-    letter-spacing: 2px;
-}
-
-.user-auth-container form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.user-auth-container input {
-    padding: 10px;
-    border: 2px solid #900020;
-    border-radius: 5px;
-}
-
-.user-auth-container input[type="submit"] {
-    background-color: #900020;
-    color: #fff;
-    padding: 5px 20px;
-    font-size: 20px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.user-auth-container .error {
-    background: red;
-    color: white;
-    text-align: center;
-    padding: 3px 10px;
-    border-radius: 25px;
-}
 
 
 
@@ -546,8 +477,5 @@ footer .copyright {
     footer .col-md-4 {
         flex: 0 0 100%;
         max-width: 100%;
-    }
-    .user-auth-container .auth-container {
-        width: 90%;
     }
 }
