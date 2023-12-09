@@ -49,16 +49,12 @@ app.get('/', (req, res) => {
     res.render('index.ejs')
 })
 
-app.get('/forms', (req, res) => {
-    res.render('forms.ejs')
+app.get('/login', (req, res) => {
+    res.render('login.ejs')
 })
 
 app.get('/register', (req, res) => {
-    if (req.session.user) {
-        res.redirect('/')
-    } else {
-        res.render('forms.ejs')
-    }
+    res.render('register.ejs')
 })
 
 app.post('/register', (req, res) => {
@@ -168,7 +164,7 @@ app.get('/logout', (req, res) => {
 })
 
 
-const PORT = process.env.PORT || 4
+const PORT = process.env.PORT || 9000
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)
 })
