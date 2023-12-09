@@ -2,17 +2,17 @@
     <%- include('partials/nav') %>
     <main class="user-auth-container">
         <div id="login-container" class="auth-container">
-            <form action="" id="login-form">
-                <header>
-                    <h1>Login</h1>
-                </header>
-                <p class="error">Wrong Details</p>
-                <label for="login-email">Email:</label>
-                <input type="email" name="email" id="login-email" placeholder="Enter your email">
+            <form action="/login-user" method="post" id="login-form">
+                <h1>Login</h1>
+                <% if (error) { %>
+                    <p class="error"><%= message %></p>
+                <% } %>
+                <label for="signup-phone">Phone Number:</label>
+                <input type="tel" name="phone" value="<%= user.phone %>" id="signup-phone" required>
     
                 <label for="login-password">Password:</label>
-                <input type="password" name="password" id="login-password" placeholder="Enter your password">
-    
+                <input type="password" name="password" value="<%= user.password %>" id="login-password" required>
+                
                 <input type="submit" value="Login">
             </form>
         </div>

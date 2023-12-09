@@ -23,8 +23,12 @@
         <div class="nav-links">
             <a href="/" onclick="closeNav()">HOME</a>
             <a href="/" onclick="closeNav()">ABOUT</a>
-            <a href="/login" onclick="closeNav()">LOGIN</a>
-            <a href="/register" onclick="closeNav()">REGISTER</a>
+            <% if (locals.isLogedIn) { %>
+                <a href="/logout" onclick="closeNav()">logout</a>
+            <% } else { %>
+                <a href="/login" onclick="closeNav()">LOGIN</a>
+                <a href="/register" onclick="closeNav()">REGISTER</a>
+            <% } %>
             <a href="/" onclick="closeNav()">CONTACT</a>
         </div>
     </div>

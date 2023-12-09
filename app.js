@@ -13,13 +13,6 @@ const connection = mysql.createConnection({
     database: 'agrihub',
 })
 
-connection.connect((err) => {
-    if (err) {
-        console.error('Error connecting to MySQL database:', err)
-        return
-    }
-    console.log('Connected to MySQL database!')
-})
 
 app.set('view engine', 'ejs')
 
@@ -49,116 +42,94 @@ app.get('/', (req, res) => {
     res.render('index.ejs')
 })
 
-app.get('/login', (req, res) => {
-    res.render('login.ejs')
-})
-
 app.get('/register', (req, res) => {
-    res.render('register.ejs')
+    const user = {
+        name: '',
+        phone: '',
+        password: '',
+        confirmPassword: ''
+    }
+    res.render('register', { error: false, user: user })
 })
 
-app.post('/register', (req, res) => {
-    connection.query(
-        'SELECT email FROM users WHERE email = ?',
-        [req.body.email],
-        (selectErr, data) => {
-            if (selectErr) {
-                console.log('SQL error: ' + selectErr)
-                res.render('forms.ejs', {
-                    error: 'An error occurred. Please try again later.',
-                })
+app.post('/register-user', (req, res) => {
+    const user = {
+        name: req.body.name,
+        phone: req.body.phone,
+        password: req.body.password,
+        confirmPassword: req.body.confirmPassword
+    }
+    // check if the passwords match
+    if (user.password === user.confirmPassword) {
+        let sql = 'SELECT * FROM user WHERE phone_number = ?'
+
+        connection.query(sql, [user.phone], (error, results) => {
+            if (results.length > 0) {
+                let message = 'An account exists with that phone number!'
+                user.phone = ''
+                res.render('register', { error: true, message: message, user: user })
             } else {
-                if (data.length > 0) {
-                    res.render('forms.ejs', { emailError: 'Email already exists' })
-                } else {
-                    if (req.body.confirmPassword === req.body.password) {
-                        const salt = bcrypt.genSaltSync(saltRounds)
-                        const hashedPassword = bcrypt.hashSync(req.body.password, salt)
-                        connection.query(
-                            'INSERT INTO users(username, email, password) VALUES(?, ?, ?)',
-                            [req.body.username, req.body.email, hashedPassword],
-                            (err) => {
-                                if (err) {
-                                    console.log('SQL error: ' + err)
-                                    res.render('forms.ejs', {
-                                        error: 'An error occurred. Please try again later.',
-                                    })
-                                } else {
-                                    res.redirect('/login')
-                                }
-                            }
-                        )
-                    } else {
-                        res.render('forms.ejs', {
-                            passwordError: 'Password and confirm password do not match',
-                        })
-                    }
-                }
+                // hash the password
+                bcrypt.hash(user.password, 10, (err, hash) => {
+                    let sql = 'INSERT INTO user (name, phone_number, password) VALUES (?, ?, ?)'
+                    connection.query(sql, [user.name, user.phone, hash], (error, results) => {
+                        res.redirect('/login')
+                    })
+                })
             }
-        }
-    )
+        })
+    } else {
+        let message = 'Passwords don\'t match!'
+        user.confirmPassword = ''
+        res.render('register', { error: true, message: message, user: user })
+    }
 })
 
 app.get('/login', (req, res) => {
-    res.render('forms.ejs')
+    const user = {
+        phone: '',
+        password: ''
+    }
+    res.render('login.ejs', { error: false, user: user })
 })
 
-app.post('/login', (req, res) => {
-    console.log('Login route triggered')
-    // Fetch user data from the database based on the provided email
-    connection.query(
-        'SELECT * FROM users WHERE email = ?',
-        [req.body.email],
-        (selectErr, data) => {
-            if (selectErr) {
-                console.log('SQL error: ' + selectErr)
-                res.render('forms.ejs', {
-                    error: 'An error occurred. Please try again later.',
-                })
-            } else {
-                if (data.length > 0) {
-                    // Perform password comparison asynchronously
-                    bcrypt.compare(
-                        req.body.password,
-                        data[0].password,
-                        (compareErr, isPasswordCorrect) => {
-                            if (compareErr) {
-                                console.log('Password comparison error:', compareErr)
-                                res.render('forms.ejs', {
-                                    error: 'An error occurred. Please try again later.',
-                                })
-                            } else if (isPasswordCorrect) {
-                                // Set session variables to indicate successful login
-                                req.session.userID = data[0].u_id
-                                console.log('Redirecting to /courses')
-                                res.redirect('/courses')
-                                console.log('Redirection executed')
-                            } else {
-                                // Password incorrect
-                                res.render('forms.ejs', {
-                                    loginError: 'Password incorrect',
-                                })
-                            }
-                        }
-                    )
+// Process login page
+app.post('/login-user', (req, res) => {
+    const user = {
+        phone: req.body.phone,
+        password: req.body.password
+    }
+
+    // check if the user exists
+    let sql = 'SELECT * FROM user WHERE phone_number = ?'
+    connection.query(sql, [user.phone], (error, results) => {
+        if (results.length > 0) {
+            bcrypt.compare(user.password, results[0].password, (error, passwordMatches) => {
+                if (passwordMatches) {
+                    req.session.userID = results[0].id
+                    req.session.name = results[0].name.split(' ')[0]
+                    res.redirect('/dashboard')
                 } else {
-                    // User not found
-                    res.render('forms.ejs', {
-                        loginError: 'Account does not exist. Please create one',
-                    })
+                    let message = 'Incorrect password!'
+                    res.render('login', { error: true, message: message, user: user })
                 }
-            }
+            })
+        } else {
+            let message = 'Account does not exist. Please create one'
+            res.render('login', { error: true, message: message, user: user })
         }
-    )
+    })
+})
+
+app.get('/dashboard', (req, res) => {
+    loginRequired(req, res)
+    res.render('dashboard', { name: req.session.name })
 })
 
 app.get('/logout', (req, res) => {
     loginRequired(req, res)
     // Destroy the session and redirect to the home page
     req.session.destroy((err) => {
-        if (err) {
-            console.log('Error destroying session:', err)
-        }
         res.redirect('/')
     })
 })
