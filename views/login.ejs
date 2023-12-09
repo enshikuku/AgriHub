@@ -1,0 +1,18 @@
+<%- include('partials/header') %>
+    <%- include('partials/nav') %>
+    <main class="user-auth-container">
+        <div id="login-container" class="auth-container">
+            <form action="" id="login-form">
+                <h1>Login</h1>
+                <p class="error">Wrong Details</p>
+                <label for="login-email">Email:</label>
+                <input type="email" name="email" id="login-email" placeholder="Enter your email">
+    
+                <label for="login-password">Password:</label>
+                <input type="password" name="password" id="login-password" placeholder="Enter your password">
+    
+                <input type="submit" value="Login">
+            </form>
+        </div>
+    </main>
+<%- include('partials/footer') %>
