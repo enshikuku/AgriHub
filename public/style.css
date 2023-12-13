@@ -15,6 +15,12 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
+    min-height: 80vh;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .auth-container {
@@ -126,10 +132,6 @@
     max-width: none;
     min-height: 70vh;
     height: fit-content;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
     padding: 25px 20%;
 }
 
@@ -164,10 +166,35 @@
     margin-bottom: 10px;
 }
 
+.events {
+    background-image: url(images/cows.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: #FFF;
+    text-align: center;
+}
+
+.events .container {
+    background-color: #000000d0;
+    max-width: none;
+    padding: 25px 20%;
+}
+
+.events h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.events p {
+    font-size: 18px;
+}
+
+
 /* Testimonials Section Styles */
 .testimonials {
     text-align: center;
     padding: 10px;
+    max-width: none;
 }
 
 .testimonials h3 {
