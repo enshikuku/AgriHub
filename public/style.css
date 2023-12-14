@@ -8,7 +8,8 @@
     margin: 0;
     box-sizing: border-box;
     scroll-behavior: smooth;
-    font-family: 'My Regular', sans-serif;
+    font-family: 'My Regular';
+    user-select: none;
 }
 
 .container {
@@ -45,7 +46,6 @@
     letter-spacing: 2px;
 }
 
-/* Hero Section Styles */
 #hero {
     background-image: url(images/virtualbg.jpg);
     background-repeat: no-repeat;
@@ -90,7 +90,6 @@
     background-color: #46000E;
 }
 
-/* Features Section Styles */
 #features {
     background-color: #F9F9F9;
     padding: 80px 0;
@@ -118,9 +117,8 @@
     color: #46000E;
 }
 
-/* About Section Styles */
 #about {
-    background-image: url(images/bg2.jpg);
+    background-image: url(images/cows.png);
     background-repeat: no-repeat;
     background-size: cover;
     color: #FFF;
@@ -144,7 +142,6 @@
     font-size: 18px;
 }
 
-/* Services Section Styles */
 #services {
     padding: 80px 0;
 }
@@ -167,7 +164,7 @@
 }
 
 .events {
-    background-image: url(images/cows.png);
+    background-image: url(images/bg2.jpg);
     background-repeat: no-repeat;
     background-size: cover;
     color: #FFF;
@@ -189,8 +186,6 @@
     font-size: 18px;
 }
 
-
-/* Testimonials Section Styles */
 .testimonials {
     text-align: center;
     padding: 10px;
@@ -226,6 +221,7 @@
 .testimonials .card:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 16px #90002033;
+    cursor: pointer;
 }
 
 .testimonials .card p {
@@ -246,7 +242,6 @@
     color: #2a030a;
 }
 
-/* User Authentication Container Styles */
 .user-auth-container {
     display: flex;
     align-items: center;
@@ -309,7 +304,6 @@
     border-radius: 25px;
 }
 
-/* Responsive Design */
 @media (max-width: 700px) {
     #contact {
         height: fit-content;
